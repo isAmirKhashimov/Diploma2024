@@ -1,0 +1,79 @@
+﻿<Window x:Class="Wavelet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:local="clr-namespace:Wavelet"
+        xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="950" Width="1200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Source function" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="OriginalFunc"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Scalegramm" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="Scalegramm"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="C components" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="CFunc"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="D components" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="DFunc"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="10">
+                <TextBlock Text="Выбрать вейвлет:" FontSize="20"/>
+                <ComboBox x:Name="WaveletComboBox" SelectionChanged="Wavelet_SelectionChanged" />
+            </StackPanel>
+            <Button Grid.Column="1" Content="Сжать" Height="50" Margin="30 10" Click="Squeeze_ButtonClick"/>
+            <Button Grid.Column="2" Content="Расширить без шума" Height="50" Margin="30 10" Click="ExtendSilently_ButtonClick"/>
+            <Button Grid.Column="3" Content="Расширить с шумом" Height="50" Margin="30 10" Click="ExtendNoisy_ButtonClick"/>
+        </Grid>
+    </Grid>
+</Window>

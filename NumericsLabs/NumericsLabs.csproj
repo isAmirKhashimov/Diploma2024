@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3FF8DE6F-A01F-4053-9761-C4E11421BC23}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NumericsLabs</RootNamespace>
+    <AssemblyName>NumericsLabs</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.5.0.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=2.1.2.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.2.1.2\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2.1.2.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.2.1.2\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf.Shared, Version=2.1.2.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.Shared.2.1.2\lib\net45\OxyPlot.Wpf.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="ScottPlot, Version=4.1.67.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScottPlot.4.1.67\lib\net462\ScottPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="ScottPlot.WPF, Version=4.1.67.0, Culture=neutral, PublicKeyToken=e53b06131e34a3aa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScottPlot.WPF.4.1.67\lib\net472\ScottPlot.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.2\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controller.cs" />
+    <Compile Include="Models\HyperbolicEquations\ApproximationByTMethod.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\IApproximationByT.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\O1ApproximationByT.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\O2ApproximationByT.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\StartDiffExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\GaussMethod.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\HyperbolicEquations\ApproximationMethod.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\ApproximationInfo\ApproximationInfo.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\ApproximationInfo\LeftBorderInfo.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\ApproximationInfo\RightBorderInfo.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\IApproximation.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\P2O1Approximation.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\P2O2Approximation.cs" />
+    <Compile Include="Models\HyperbolicEquations\Approximation\P3O2Approximation.cs" />
+    <Compile Include="Models\HyperbolicEquations\CalculationMethod.cs" />
+    <Compile Include="Models\HyperbolicEquations\Equation.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\AnalyticalExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\BaseExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\BorderExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\LeftBorderExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\RightBorderExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Expressions\StartExpression.cs" />
+    <Compile Include="Models\HyperbolicEquations\Issue.cs" />
+    <Compile Include="Models\HyperbolicEquations\IssueParameters.cs" />
+    <Compile Include="Models\HyperbolicEquations\LinearSystem.cs" />
+    <Compile Include="Models\HyperbolicEquations\ListUtils.cs" />
+    <Compile Include="Models\HyperbolicEquations\Solver.cs" />
+    <Compile Include="Models\HyperbolicEquations\StepCalculator\ClearStepCalculator.cs" />
+    <Compile Include="Models\HyperbolicEquations\StepCalculator\IStepCalculator.cs" />
+    <Compile Include="Models\HyperbolicEquations\StepCalculator\UnclearStepCalculator.cs" />
+    <Compile Include="Models\ParabolicEquations\ApproximationMethod.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\ApproximationInfo\ApproximationInfo.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\ApproximationInfo\LeftBorderInfo.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\ApproximationInfo\RightBorderInfo.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\IApproximation.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\P2O1Approximation.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\P2O2Approximation.cs" />
+    <Compile Include="Models\ParabolicEquations\Approximation\P3O2Approximation.cs" />
+    <Compile Include="Models\ParabolicEquations\CalculationMethod.cs" />
+    <Compile Include="Models\ParabolicEquations\Equation.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\AnalyticalExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\BaseExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\BorderExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\LeftBorderExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\RightBorderExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\Expressions\StartExpression.cs" />
+    <Compile Include="Models\ParabolicEquations\GaussMethod.cs" />
+    <Compile Include="Models\ParabolicEquations\Issue.cs" />
+    <Compile Include="Models\ParabolicEquations\IssueParameters.cs" />
+    <Compile Include="Models\ParabolicEquations\LinearSystem.cs" />
+    <Compile Include="Models\ParabolicEquations\ListUtils.cs" />
+    <Compile Include="Models\ParabolicEquations\Solver.cs" />
+    <Compile Include="Models\ParabolicEquations\StepCalculator\ClearStepCalculator.cs" />
+    <Compile Include="Models\ParabolicEquations\StepCalculator\CrankNicolsonStepCalculator.cs" />
+    <Compile Include="Models\ParabolicEquations\StepCalculator\IStepCalculator.cs" />
+    <Compile Include="Models\ParabolicEquations\StepCalculator\UnclearStepCalculator.cs" />
+    <Compile Include="Models\SLAU\Maths.cs" />
+    <Compile Include="Models\SLAU\Matrix.cs" />
+    <Compile Include="Models\SLAU\Row.cs" />
+    <Compile Include="Models\SLAU\Solver.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

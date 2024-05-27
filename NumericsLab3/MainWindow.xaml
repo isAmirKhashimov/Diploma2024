@@ -1,0 +1,98 @@
+﻿<Window x:Class="NumericsLabs3.MainWindow"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:local="clr-namespace:NumericsLabs3"
+        xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1600">
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Slider Orientation="Vertical" Value="0" Margin="10" x:Name="Y_Slider" Minimum="0" SelectionStart="0"  ValueChanged="Slider_ValueChanged" />
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Функция в определенной точке по y" Margin="20 0" FontSize="20"/>
+                    <ScottPlot:WpfPlot Grid.Row="1" x:Name="GraphVisualizer"/>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Функция ошибки по времени" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="ErrorVisualizer"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="u(x, y) - аналитическое" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="AnanylitcalHeatVisualizer"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="u(x, y) - найденное" Margin="20 0" FontSize="20"/>
+                <ScottPlot:WpfPlot Grid.Row="1" x:Name="HeatVisualizer"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="10">
+                <TextBlock Text="Метод решения:" FontSize="20"/>
+                <ComboBox x:Name="CalcComboBox" SelectionChanged="SelectionChanged" />
+            </StackPanel>
+            <StackPanel Margin="10" Grid.Column="1">
+                <TextBlock Text="Момент времени t:" FontSize="20"/>
+                <Slider Value="0" x:Name="T_Slider" Minimum="0" SelectionStart="0" Height="30" ValueChanged="Iteration_Changed" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
