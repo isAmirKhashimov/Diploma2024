@@ -2,28 +2,40 @@
 {
 	public class Delaunator
 	{
-		private readonly double EPSILON = Math.Pow(2, -52);
-		private readonly int[] EDGE_STACK = new int[512];
+		private readonly double eps = Math.Pow(2, -52);
+		private readonly int[] edgeStack = new int[512];
 
-		/// <summary>
-		/// One value per half-edge, containing the point index of where a given half edge starts.
-		/// </summary>
 		public int[] Triangles { get; private set; }
 
-		/// <summary>
-		/// One value per half-edge, containing the opposite half-edge in the adjacent triangle, or -1 if there is no adjacent triangle
-		/// </summary>
-		public int[] Halfedges { get; private set; }
+		public int[] HalfEdges { get; private set; }
 
-		/// <summary>
-		/// The initial points Delaunator was constructed with.
-		/// </summary>
 		public IPoint[] Points { get; private set; }
 
-		/// <summary>
-		/// A list of point indices that traverses the hull of the points.
-		/// </summary>
 		public int[] Hull { get; private set; }
+
+		public double Eps => eps;
+
+		public int[] EdgeStack => edgeStack;
+
+		public int HashSize => hashSize;
+
+		public int[] HullPrev => hullPrev;
+
+		public int[] HullNext => hullNext;
+
+		public int[] HullTri => hullTri;
+
+		public int[] HullHash => hullHash;
+
+		public double Cx { get => cx; set => cx = value; }
+		public double Cy { get => cy; set => cy = value; }
+		public int TrianglesLen { get => trianglesLen; set => trianglesLen = value; }
+
+		public double[] Coords => coords;
+
+		public int HullStart => hullStart;
+
+		public int HullSize => hullSize;
 
 		private readonly int hashSize;
 		private readonly int[] hullPrev;
@@ -61,7 +73,7 @@
 
 			Triangles = new int[maxTriangles * 3];
 
-			Halfedges = new int[maxTriangles * 3];
+			HalfEdges = new int[maxTriangles * 3];
 			hashSize = (int)Math.Ceiling(Math.Sqrt(n));
 
 			hullPrev = new int[n];
@@ -95,7 +107,6 @@
 			var i1 = 0;
 			var i2 = 0;
 
-			// pick a seed point close to the center
 			for (int i = 0; i < n; i++)
 			{
 				var d = Dist(cx, cy, coords[2 * i], coords[2 * i + 1]);
@@ -110,7 +121,6 @@
 
 			minDist = double.PositiveInfinity;
 
-			// find the point closest to the seed
 			for (int i = 0; i < n; i++)
 			{
 				if (i == i0) continue;
@@ -127,7 +137,6 @@
 
 			var minRadius = double.PositiveInfinity;
 
-			// find the third point which forms the smallest circumcircle with the first two
 			for (int i = 0; i < n; i++)
 			{
 				if (i == i0 || i == i1) continue;
@@ -160,8 +169,8 @@
 			}
 
 			var center = Circumcenter(i0x, i0y, i1x, i1y, i2x, i2y);
-			this.cx = center.X;
-			this.cy = center.Y;
+			this.Cx = center.X;
+			this.Cy = center.Y;
 
 			var dists = new double[n];
 			for (var i = 0; i < n; i++)
@@ -169,10 +178,8 @@
 				dists[i] = Dist(coords[2 * i], coords[2 * i + 1], center.X, center.Y);
 			}
 
-			// sort the points by distance from the seed triangle circumcenter
 			Quicksort(ids, dists, 0, n - 1);
 
-			// set up the seed triangle as the starting hull
 			hullStart = i0;
 			hullSize = 3;
 
@@ -188,7 +195,7 @@
 			hullHash[HashKey(i1x, i1y)] = i1;
 			hullHash[HashKey(i2x, i2y)] = i2;
 
-			trianglesLen = 0;
+			TrianglesLen = 0;
 			AddTriangle(i0, i1, i2, -1, -1, -1);
 
 			double xp = 0;
@@ -200,15 +207,12 @@
 				var x = coords[2 * i];
 				var y = coords[2 * i + 1];
 
-				// skip near-duplicate points
-				if (k > 0 && Math.Abs(x - xp) <= EPSILON && Math.Abs(y - yp) <= EPSILON) continue;
+				if (k > 0 && Math.Abs(x - xp) <= eps && Math.Abs(y - yp) <= eps) continue;
 				xp = x;
 				yp = y;
 
-				// skip seed triangle points
 				if (i == i0 || i == i1 || i == i2) continue;
 
-				// find a visible edge on the convex hull using edge hash
 				var start = 0;
 				for (var j = 0; j < hashSize; j++)
 				{
@@ -234,17 +238,14 @@
 					q = hullNext[e];
 				}
 
-				if (e == int.MaxValue) continue; // likely a near-duplicate point; skip it
+				if (e == int.MaxValue) continue;
 
-				// add the first triangle from the point
 				var t = AddTriangle(e, i, hullNext[e], -1, -1, hullTri[e]);
 
-				// recursively flip triangles from the point until they satisfy the Delaunay condition
 				hullTri[i] = Legalize(t + 2);
-				hullTri[e] = t; // keep track of boundary triangles on the hull
+				hullTri[e] = t;
 				hullSize++;
 
-				// walk forward through the hull, adding more triangles and flipping recursively
 				var next = hullNext[e];
 				q = hullNext[next];
 
@@ -252,14 +253,13 @@
 				{
 					t = AddTriangle(next, i, q, hullTri[i], -1, hullTri[next]);
 					hullTri[i] = Legalize(t + 2);
-					hullNext[next] = next; // mark as removed
+					hullNext[next] = next;
 					hullSize--;
 					next = q;
 
 					q = hullNext[next];
 				}
 
-				// walk backward from the other side, adding more triangles and flipping
 				if (e == start)
 				{
 					q = hullPrev[e];
@@ -269,7 +269,7 @@
 						t = AddTriangle(q, i, e, -1, hullTri[e], hullTri[q]);
 						Legalize(t + 2);
 						hullTri[q] = t;
-						hullNext[e] = e; // mark as removed
+						hullNext[e] = e;
 						hullSize--;
 						e = q;
 
@@ -277,12 +277,10 @@
 					}
 				}
 
-				// update the hull indices
 				hullStart = hullPrev[i] = e;
 				hullNext[e] = hullPrev[next] = i;
 				hullNext[i] = next;
 
-				// save the two new edges in the hash table
 				hullHash[HashKey(x, y)] = i;
 				hullHash[HashKey(coords[2 * e], coords[2 * e + 1])] = e;
 			}
@@ -295,11 +293,10 @@
 				s = hullNext[s];
 			}
 
-			hullPrev = hullNext = hullTri = null; // get rid of temporary arrays
+			hullPrev = hullNext = hullTri = null;
 
-			//// trim typed triangle mesh arrays
-			Triangles = Triangles.Take(trianglesLen).ToArray();
-			Halfedges = Halfedges.Take(trianglesLen).ToArray();
+			Triangles = Triangles.Take(TrianglesLen).ToArray();
+			HalfEdges = HalfEdges.Take(TrianglesLen).ToArray();
 		}
 
 		private int Legalize(int a)
@@ -307,33 +304,17 @@
 			var i = 0;
 			int ar;
 
-			// recursion eliminated with a fixed-size stack
 			while (true)
 			{
-				var b = Halfedges[a];
+				var b = HalfEdges[a];
 
-				/* if the pair of triangles doesn't satisfy the Delaunay condition
-                 * (p1 is inside the circumcircle of [p0, pl, pr]), flip them,
-                 * then do the same check/flip recursively for the new pair of triangles
-                 *
-                 *           pl                    pl
-                 *          /||\                  /  \
-                 *       al/ || \bl            al/    \a
-                 *        /  ||  \              /      \
-                 *       /  a||b  \    flip    /___ar___\
-                 *     p0\   ||   /p1   =>   p0\---bl---/p1
-                 *        \  ||  /              \      /
-                 *       ar\ || /br             b\    /br
-                 *          \||/                  \  /
-                 *           pr                    pr
-                 */
 				int a0 = a - a % 3;
 				ar = a0 + (a + 2) % 3;
 
 				if (b == -1)
-				{ // convex hull edge
+				{
 					if (i == 0) break;
-					a = EDGE_STACK[--i];
+					a = EdgeStack[--i];
 					continue;
 				}
 
@@ -347,48 +328,46 @@
 				var p1 = Triangles[bl];
 
 				var illegal = InCircle(
-					coords[2 * p0], coords[2 * p0 + 1],
-					coords[2 * pr], coords[2 * pr + 1],
-					coords[2 * pl], coords[2 * pl + 1],
-					coords[2 * p1], coords[2 * p1 + 1]);
+					Coords[2 * p0], Coords[2 * p0 + 1],
+					Coords[2 * pr], Coords[2 * pr + 1],
+					Coords[2 * pl], Coords[2 * pl + 1],
+					Coords[2 * p1], Coords[2 * p1 + 1]);
 
 				if (illegal)
 				{
 					Triangles[a] = p1;
 					Triangles[b] = p0;
 
-					var hbl = Halfedges[bl];
+					var hbl = HalfEdges[bl];
 
-					// edge swapped on the other side of the hull (rare); fix the halfedge reference
 					if (hbl == -1)
 					{
-						var e = hullStart;
+						var e = HullStart;
 						do
 						{
-							if (hullTri[e] == bl)
+							if (HullTri[e] == bl)
 							{
-								hullTri[e] = a;
+								HullTri[e] = a;
 								break;
 							}
-							e = hullPrev[e];
-						} while (e != hullStart);
+							e = HullPrev[e];
+						} while (e != HullStart);
 					}
 					Link(a, hbl);
-					Link(b, Halfedges[ar]);
+					Link(b, HalfEdges[ar]);
 					Link(ar, bl);
 
 					var br = b0 + (b + 1) % 3;
 
-					// don't worry about hitting the cap: it can only happen on extremely degenerate input
-					if (i < EDGE_STACK.Length)
+					if (i < EdgeStack.Length)
 					{
-						EDGE_STACK[i++] = br;
+						EdgeStack[i++] = br;
 					}
 				}
 				else
 				{
 					if (i == 0) break;
-					a = EDGE_STACK[--i];
+					a = EdgeStack[--i];
 				}
 			}
 
@@ -413,7 +392,7 @@
 		}
 		private int AddTriangle(int i0, int i1, int i2, int a, int b, int c)
 		{
-			var t = trianglesLen;
+			var t = TrianglesLen;
 
 			Triangles[t] = i0;
 			Triangles[t + 1] = i1;
@@ -423,19 +402,19 @@
 			Link(t + 1, b);
 			Link(t + 2, c);
 
-			trianglesLen += 3;
+			TrianglesLen += 3;
 			return t;
 		}
 		private void Link(int a, int b)
 		{
-			Halfedges[a] = b;
-			if (b != -1) Halfedges[b] = a;
+			HalfEdges[a] = b;
+			if (b != -1) HalfEdges[b] = a;
 		}
-		private int HashKey(double x, double y) => (int)(Math.Floor(PseudoAngle(x - cx, y - cy) * hashSize) % hashSize);
+		private int HashKey(double x, double y) => (int)(Math.Floor(PseudoAngle(x - Cx, y - Cy) * HashSize) % HashSize);
 		private static double PseudoAngle(double dx, double dy)
 		{
 			var p = dx / (Math.Abs(dx) + Math.Abs(dy));
-			return (dy > 0 ? 3 - p : 1 + p) / 4; // [0..1]
+			return (dy > 0 ? 3 - p : 1 + p) / 4;
 		}
 		private static void Quicksort(int[] ids, double[] dists, int left, int right)
 		{
@@ -535,7 +514,7 @@
 		{
 			for (var e = 0; e < Triangles.Length; e++)
 			{
-				if (e > Halfedges[e])
+				if (e > HalfEdges[e])
 				{
 					var p = Points[Triangles[e]];
 					var q = Points[Triangles[NextHalfedge(e)]];
@@ -551,7 +530,7 @@
 			{
 				points.Add(Points[p]);
 			}
-			return points.ToArray();
+			return [.. points];
 		}
 
 		public void ForEachTriangleEdge(Action<IEdge> callback)
